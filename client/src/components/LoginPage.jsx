@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 export default function LoginPage({ onLogin }) {
   const [password, setPassword] = useState('');
+  const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -51,12 +52,25 @@ export default function LoginPage({ onLogin }) {
               autoFocus
             />
           </div>
+          <div className="mb-4">
+            <label className="flex items-start gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                className="mt-0.5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              <span className="text-xs text-gray-600 leading-relaxed">
+                I acknowledge that the data presented in this dashboard is strictly confidential and intended for authorized internal use only. I agree not to share, distribute, or disclose any information contained herein with external parties, organizations, or unauthorized individuals.
+              </span>
+            </label>
+          </div>
           {error && (
             <p className="text-red-600 text-sm mb-4">{error}</p>
           )}
           <button
             type="submit"
-            disabled={loading || !password}
+            disabled={loading || !password || !agreed}
             className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-indigo-700 disabled:opacity-50 transition-colors"
           >
             {loading ? 'Verifying...' : 'Access Dashboard'}

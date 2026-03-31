@@ -11,6 +11,8 @@ export default function Dashboard({ renewals, summary }) {
     region: 'all',
     excludeAwsMp: false,
     top3kOnly: false,
+    renewalFrom: '',
+    renewalTo: '',
   });
   const [sortField, setSortField] = useState('priorityScore');
   const [sortDir, setSortDir] = useState('desc');
@@ -39,6 +41,12 @@ export default function Dashboard({ renewals, summary }) {
     if (filters.excludeAwsMp && r.ZUORA_ACCOUNT_NAME?.toUpperCase().includes('AWS')) return false;
     if (awsOnly && !r.ZUORA_ACCOUNT_NAME?.toUpperCase().includes('AWS')) return false;
     if (filters.top3kOnly && r['Top 3K'] !== 'Yes') return false;
+    if (filters.renewalFrom && r.RESELLERCUSTOMER_SUB_RENEWAL_DATE) {
+      if (new Date(r.RESELLERCUSTOMER_SUB_RENEWAL_DATE) < new Date(filters.renewalFrom)) return false;
+    }
+    if (filters.renewalTo && r.RESELLERCUSTOMER_SUB_RENEWAL_DATE) {
+      if (new Date(r.RESELLERCUSTOMER_SUB_RENEWAL_DATE) > new Date(filters.renewalTo + 'T23:59:59')) return false;
+    }
     if (filters.priority !== 'all' && r.priorityLevel !== filters.priority) return false;
     if (filters.timeframe === '0') {
       if (r.daysUntilRenewal === null || r.daysUntilRenewal > 0) return false;

@@ -66,6 +66,26 @@ export default function Filters({ filters, onChange, regions }) {
           </select>
         </div>
 
+        {/* Renewal date range */}
+        <div className="min-w-[130px]">
+          <label className="block text-xs font-medium text-gray-500 mb-1">Renewal From</label>
+          <input
+            type="date"
+            value={filters.renewalFrom || ''}
+            onChange={(e) => update('renewalFrom', e.target.value)}
+            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
+          />
+        </div>
+        <div className="min-w-[130px]">
+          <label className="block text-xs font-medium text-gray-500 mb-1">Renewal To</label>
+          <input
+            type="date"
+            value={filters.renewalTo || ''}
+            onChange={(e) => update('renewalTo', e.target.value)}
+            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none"
+          />
+        </div>
+
         {/* Top 3K toggle */}
         <div className="pt-4 flex items-center gap-2">
           <button
@@ -103,7 +123,7 @@ export default function Filters({ filters, onChange, regions }) {
         {/* Reset */}
         <div className="pt-4">
           <button
-            onClick={() => onChange({ search: '', priority: 'all', timeframe: 'all', region: 'all', excludeAwsMp: false, top3kOnly: false })}
+            onClick={() => onChange({ search: '', priority: 'all', timeframe: 'all', region: 'all', excludeAwsMp: false, top3kOnly: false, renewalFrom: '', renewalTo: '' })}
             className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
           >
             Reset Filters
